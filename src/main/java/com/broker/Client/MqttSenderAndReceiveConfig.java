@@ -130,7 +130,7 @@ public class MqttSenderAndReceiveConfig {
         DefaultPahoMessageConverter converter = new DefaultPahoMessageConverter();
         converter.setPayloadAsBytes(true);
         adapter.setConverter(converter);
-        adapter.setQos(2);
+        adapter.setQos(0);
         adapter.setOutputChannel(mqttInputChannel());
         return adapter;
     }

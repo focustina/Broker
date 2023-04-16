@@ -16,7 +16,7 @@ public class RuleWarnController {
     RuleWarnMapper mapper;
     @PostMapping
     public Boolean saverulewarn(@RequestBody RuleWarn rulewarn){
-        log.warn("rulewarn {}",rulewarn);
+        log.info("rulewarn: {}",rulewarn);
         int i = mapper.insert(rulewarn);
         return i == 1;
     }
