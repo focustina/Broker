@@ -3,11 +3,17 @@ package com.broker.Controller;
 
 
 
+import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.broker.Detect.DetectionResult;
 import com.broker.Detect.DetectionRule;
 import com.broker.Entity.DetectRule;
+import com.broker.Entity.RuleSource;
 import com.broker.Mapper.DetectRuleMapper;
+import com.broker.Mapper.RuleSourceMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.mqtt.support.MqttHeaders;
@@ -19,7 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.broker.Client.MqttReceiveHandle;
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.alibaba.fastjson.JSON.toJSON;
 
 
 /**
@@ -30,6 +39,10 @@ import java.util.List;
 @RequestMapping("/detectrule")
 public class DetectRuleController {
     private MqttReceiveHandle mqttReceiveHandle;
+    private RuleSource ruleSource;
+    private DetectRule detectRule;
+    private RuleSourceMapper sourceMapper;
+    private DetectRuleMapper detectRuleMapper;
     Gson gson = new Gson();
 
     @Autowired
@@ -42,20 +55,23 @@ public class DetectRuleController {
         String ruledatasource = topicArr[4];
         log.info("消息主题：{}", topic);
         String jsonMsg = String.valueOf((message.getPayload()));
-        DetectionResult  detectionResult = JSONObject.parseObject(jsonMsg,DetectionResult.class);
-
         if (ruledatasource == "ruleSource"){
+            DetectionResult  detectionResult = JSONObject.parseObject(jsonMsg,DetectionResult.class);
             log.info("response:",detectionResult);
-            List detectrule_array = detectionResult.getDetection_rule();
-            for(int i=0;i<detectrule_array.size();i++){
-                DetectRule detectRule = (DetectRule) detectrule_array.get(i);
-                log.warn("detectRule {}",detectRule);
-                mapper.insert(detectRule);
+            String ruledectMsg = String.valueOf((detectionResult.getDetection_rule()));
+            for(int i=0;i<ruledectMsg.length();i++){
+                DetectionRule detectionRule =JSONObject.parseObject(ruledectMsg,DetectionRule.class);
+                detectRule.setDetection_no(detectionResult.getDetection_no());
+                detectRule.setDetection_tag(detectionResult.getDetection_tag());
+                detectRule.setImage_id(detectionResult.getImage_id());
+                detectRule.setPoint_id(detectionResult.getPoint_id());
+                detectRule.setPoint_sub_id(detectionRule.getPoint_sub_id());
+                detectRule.setDetection_item(detectionRule.getDetection_item());
+                detectRule.setDetection_key(detectionRule.getDetection_key());
+                detectRule.setDetection_value(detectionRule.getDetection_value());
+                detectRuleMapper.insert(detectRule);
 
             }
-
-
-
 
         }
 

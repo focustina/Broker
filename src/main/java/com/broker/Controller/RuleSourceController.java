@@ -19,6 +19,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/rulesource")
 public class RuleSourceController {
+    private RuleSource ruleSource;
+    private RuleSourceMapper sourceMapper;
     Gson gson = new Gson();
 
 
@@ -36,6 +38,16 @@ public class RuleSourceController {
 
         if (ruledatasource == "ruleSource"){
             log.info("response:",detectionResult);
+            ruleSource.setId(detectionResult.getId());
+            ruleSource.setDetection_no(detectionResult.getDetection_no());
+            ruleSource.setDetection_tag(detectionResult.getDetection_tag());
+            ruleSource.setArea_id(detectionResult.getArea_id());
+            ruleSource.setImage_id(detectionResult.getImage_id());
+            ruleSource.setPoint_id(detectionResult.getPoint_id());
+            ruleSource.setScene_version(detectionResult.getScene_version());
+            ruleSource.setScenes_id(detectionResult.getScenes_id());
+            ruleSource.setEvent_time(detectionResult.getEvent_time());
+            sourceMapper.insert(ruleSource);
 
 
             }
@@ -44,12 +56,12 @@ public class RuleSourceController {
 
 
         }
-    @PostMapping
-    public Boolean saveRuleSource(@RequestBody RuleSource rulesource){
-        log.warn("rulesource {}",rulesource);
-        int  i = mapper.insert(rulesource);
-        return i == 1;
-    }
+//    @PostMapping
+//    public Boolean saveRuleSource(@RequestBody RuleSource rulesource){
+//        log.warn("rulesource {}",rulesource);
+//        int  i = mapper.insert(rulesource);
+//        return i == 1;
+//    }
 }
 
 

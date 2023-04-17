@@ -1,0 +1,21 @@
+com:
+  mqtt:
+    host: tcp://192.168.100.213:1883
+    userName: admin
+    passWord: public
+    qos: 0
+    clientId: serve
+    timeout: 10
+    keepalive: 20
+    sendTopics:
+
+
+
+
+# Database Config
+spring:
+  datasource:
+    username: dbmgus
+    password: 3#w6xDc2c
+    url: jdbc:mysql://172.16.8.208:3306/mqttserver?userUnicode=true&characterEncoding=utf-8
+    driver-class-name:

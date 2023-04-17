@@ -21,6 +21,19 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
+import org.springframework.integration.annotation.IntegrationComponentScan;
+import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.core.MessageProducer;
+import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
+import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
+import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
+import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHandler;
+import org.springframework.messaging.MessagingException;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,22 +55,17 @@ public class MqttSenderAndReceiveConfig {
     @Autowired
     private MqttReceiveHandle mqttReceiveHandle;
 
-    @Value("${mqtt.username}")
-    private String username;
+    private String username = "admin";
 
-    @Value("${mqtt.password}")
-    private String password;
+    private String password = "public";
 
-    @Value("${mqtt.url}")
-    private String hostUrl;
 
-    @Value("${mqtt.client.id}")
-    private String clientId;
+    private String hostUrl = "tcp://192.168.100.213:1883";
 
-    @Value("${mqtt.default.topic}")
-    private String defaultTopic;
+    private String clientId = "serve";
 
-    @Value("${mqtt.completionTimeout}")
+    private String defaultTopic ="edgex/rule/device/onvif-camera/ruleSource/9e34aebb-0446-4d13-a91f-2ff2871d504b";
+
     private int completionTimeout;   //连接超时
 
     /**
@@ -102,18 +110,18 @@ public class MqttSenderAndReceiveConfig {
     /**
      * MQTT消息处理器（生产者）
      **/
-    @Bean
-    @ServiceActivator(inputChannel = "mqttOutboundChannel")
-    public MessageHandler mqttOutbound() {
-        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(clientId + "_producer", mqttClientFactory());
-        messageHandler.setAsync(true);
-        messageHandler.setDefaultTopic(defaultTopic);
-        messageHandler.setAsyncEvents(true); // 消息发送和传输完成会有异步的通知回调
-        //设置转换器 发送bytes数据
-        DefaultPahoMessageConverter converter = new DefaultPahoMessageConverter();
-        converter.setPayloadAsBytes(true);
-        return messageHandler;
-    }
+//    @Bean
+//    @ServiceActivator(inputChannel = "mqttOutboundChannel")
+//    public MessageHandler mqttOutbound() {
+//        MqttPahoMessageHandler mqttPahoMessageHandler = new MqttPahoMessageHandler(clientId + "_producer", mqttClientFactory());
+//        mqttPahoMessageHandler.setAsync(true);
+//        mqttPahoMessageHandler.setDefaultTopic(defaultTopic);
+//        mqttPahoMessageHandler.setAsyncEvents(true); // 消息发送和传输完成会有异步的通知回调
+//        //设置转换器 发送bytes数据
+//        DefaultPahoMessageConverter converter = new DefaultPahoMessageConverter();
+//        converter.setPayloadAsBytes(true);
+//        return mqttPahoMessageHandler;
+//    }
 
     /**
      * 配置client,监听的topic
@@ -156,5 +164,9 @@ public class MqttSenderAndReceiveConfig {
                 mqttReceiveHandle.handle(message);
             }
         };
+    }
+
+    public static void main(String[] args) {
+
     }
 }
