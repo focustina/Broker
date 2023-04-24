@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.broker.mapper.RulehandleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.broker.pojo.Rulehandle">
+        <result column="scenes_id" property="scenesId" />
+        <result column="scene_version" property="sceneVersion" />
+        <result column="area_id" property="areaId" />
+        <result column="detection_no" property="detectionNo" />
+        <result column="detection_tag" property="detectionTag" />
+        <result column="warn" property="warn" />
+        <result column="point_collect" property="pointCollect" />
+        <result column="image_collect" property="imageCollect" />
+        <result column="event_time" property="eventTime" />
+        <result column="id" property="id" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        scenes_id, scene_version, area_id, detection_no, detection_tag, warn, point_collect, image_collect, event_time, id
+    </sql>
+
+</mapper>

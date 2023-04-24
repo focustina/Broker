@@ -22,4 +22,3 @@ spring:
     password: 3#w6xDc2c
     url: jdbc:mysql://172.16.8.208:3306/mqttserver?userUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.jdbc.Driver
-

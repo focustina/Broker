@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.broker.mapper.DetectruleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.broker.pojo.Detectrule">
+        <result column="detection_item" property="detectionItem" />
+        <result column="point_sub_id" property="pointSubId" />
+        <result column="detection_key" property="detectionKey" />
+        <result column="detection_value" property="detectionValue" />
+        <result column="detection_no" property="detectionNo" />
+        <result column="image_id" property="imageId" />
+        <result column="detection_tag" property="detectionTag" />
+        <result column="point_id" property="pointId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        detection_item, point_sub_id, detection_key, detection_value, detection_no, image_id, detection_tag, point_id
+    </sql>
+
+</mapper>
